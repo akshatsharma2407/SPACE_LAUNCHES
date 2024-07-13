@@ -188,12 +188,125 @@ def perticular_mission(selected_mission):
         st.metric('Date',str(values[-2]))
         st.metric('OUTCOME',values[-5])
         st.metric('STATUS',values[-7])
-     
 
-st.title('SPACE MISSIONS ANALYSIS')
+def org1vsorg2(org1,org2):
+
+     st.title(f'A DETAIL COMPARISON BETWEEN {org1} AND {org2}')
+     col1,col2 = st.columns(2)
+     with col1:
+     #ORGANISATION TYPE
+          st.metric(f'ORGANISATION TYPE of {org1}',df[df['Organisation'] == org1]['Organisation_type'].values[0])
+     #COUNTRY
+          st.metric(f'COUNTRY/PLACE OF ORIGIN {org1}',df[df['Organisation'] == org1]['Company Country'].values[0])
+     #COUNT OF LAUCHES
+          st.metric(f'NUMBER OF LAUNCHES BY {org1}',df[df['Organisation'] == org1].shape[0])
+     #PLOT OF SUCCESS VS FAILURE
+          try:
+            success = int(df[df['Organisation'] == org1].groupby('Mission_Status')['Mission_Status'].value_counts()['Success'])
+            st.metric(f'SUCCESSFULL LAUNCHES BY {org1}',success,success)
+          except:
+            st.metric(f'SUCCESSFULL LAUNCHES BY {org1}', 0,0)
+
+          try:
+            fail = int(df[df['Organisation'] == org1].groupby('Mission_Status')['Mission_Status'].value_counts()['Failure'])
+            st.metric(f'FAILED LAUNCHES BY {org1}', fail,-(fail))
+          except:
+            st.metric(f'FAILED LAUNCHES BY {org1}', 0,-(0))
+          
+          try:
+            partialfailure = int(df[df['Organisation'] == org1].groupby('Mission_Status')['Mission_Status'].value_counts()['Partial Failure'])
+            st.metric(f'Partial Failure LAUNCHES BY {org1}', partialfailure,partialfailure)
+          except:
+            st.metric(f'Partial Failure LAUNCHES BY {org1}', 0,(0))
+          
+          try:
+            prelaunch = int(df[df['Organisation'] == org1].groupby('Mission_Status')['Mission_Status'].value_counts()['Prelaunch Failure'])
+            st.metric(f'PRE LAUNCH Failure LAUNCHES BY {org1}', prelaunch,-(prelaunch))
+          except:
+            st.metric(f'PRE LAUNCH Failure LAUNCHES BY {org1}', 0,-0)
+              
+     #RETIRED VS ACTIVE
+          try:
+            active = int(df[df['Organisation'] == org1].groupby('Rocket_Status')['Rocket_Status'].value_counts()['StatusActive'])
+            st.metric(f'ACTIVE SATELLITE BY {org1}',active,active)
+          except:
+            st.metric(f'ACTIVE SATELLITE BY {org1}', 0,0)
+
+          try:
+            retired = int(df[df['Organisation'] == org1].groupby('Rocket_Status')['Rocket_Status'].value_counts()['StatusRetired'])
+            st.metric(f'RETIRED SATELLITE BY {org1}', retired,-(retired))
+          except:
+            st.metric(f'RETIRED SATELLITE BY {org1}', 0,-(0))
+              
+     #DATAFRAME OF ALL LAUNCHES
+          st.dataframe(df[df['Organisation'] == org1])
+     
+     # #PLOT OF SUCCESS VS FAILURE
+     #      plot1 = df[df['Organisation'] == org2].groupby('Mission_Status')['Mission_Status'].value_counts()
+     #      fig1,ax1 = plt.subplots()
+     #      ax1.pie(plot1,labels = plot2.index,autopct='%0.01f%%')
+     #      ax1.set_title(f'SUCCESS VS FAILURE OF LAUCHES OF {org1}')
+     #      st.pyplot(fig1)
+
+
+     with col2:
+     #ORGANISATION TYPE
+          st.metric(f'ORGANISATION TYPE of {org2}',df[df['Organisation'] == org2]['Organisation_type'].values[0])
+     #COUNTRY
+          st.metric(f'COUNTRY/PLACE OF ORIGIN {org2}',df[df['Organisation'] == org2]['Company Country'].values[0])
+     #COUNT OF LAUCHES
+          st.metric(f'NUMBER OF LAUNCHES BY {org2}',df[df['Organisation'] == org2].shape[0])
+     #PLOT OF SUCCESS VS FAILURE
+          try:
+            success = int(df[df['Organisation'] == org2].groupby('Mission_Status')['Mission_Status'].value_counts()['Success'])
+            st.metric(f'SUCCESSFULL LAUNCHES BY {org2}',success,success)
+          except:
+            st.metric(f'SUCCESSFULL LAUNCHES BY {org2}', 0,0)
+
+          try:
+            fail = int(df[df['Organisation'] == org2].groupby('Mission_Status')['Mission_Status'].value_counts()['Failure'])
+            st.metric(f'FAILED LAUNCHES BY {org2}', fail,-(fail))
+          except:
+            st.metric(f'FAILED LAUNCHES BY {org2}', 0,-(0))
+          
+          try:
+            partialfailure = int(df[df['Organisation'] == org2].groupby('Mission_Status')['Mission_Status'].value_counts()['Partial Failure'])
+            st.metric(f'Partial Failure LAUNCHES BY {org2}', partialfailure,partialfailure)
+          except:
+            st.metric(f'Partial Failure LAUNCHES BY {org2}', 0,(0))
+          
+          try:
+            prelaunch = int(df[df['Organisation'] == org2].groupby('Mission_Status')['Mission_Status'].value_counts()['Prelaunch Failure'])
+            st.metric(f'PRE LAUNCH Failure LAUNCHES BY {org2}', prelaunch,-(prelaunch))
+          except:
+            st.metric(f'PRE LAUNCH Failure LAUNCHES BY {org2}', 0,-0)
+     
+     #RETIRED VS ACTIVE
+          try:
+            active = int(df[df['Organisation'] == org2].groupby('Rocket_Status')['Rocket_Status'].value_counts()['StatusActive'])
+            st.metric(f'ACTIVE SATELLITE BY {org2}',active,active)
+          except:
+            st.metric(f'ACTIVE SATELLITE BY {org2}', 0,0)
+
+          try:
+            retired = int(df[df['Organisation'] == org2].groupby('Rocket_Status')['Rocket_Status'].value_counts()['StatusRetired'])
+            st.metric(f'RETIRED SATELLITE BY {org2}', retired,-(retired))
+          except:
+            st.metric(f'RETIRED SATELLITE BY {org2}', 0,-(0))
+
+     #DATAFRAME OF ALL LAUNCHES
+          st.dataframe(df[df['Organisation'] == org2])
+     # #PLOT OF SUCCESS VS FAILURE
+     #      plot2 = df[df['Organisation'] == org2].groupby('Mission_Status')['Mission_Status'].value_counts()
+     #      fig2,ax2 = plt.subplots()
+     #      ax2.pie(plot2,labels = plot2.index,autopct='%0.01f%%')
+     #      ax2.set_title(f'SUCCESS VS FAILURE OF LAUCHES OF {org2}')
+     #      st.pyplot(fig2)
+
+     #redefine col1,col2 for having a title 
 
 st.sidebar.title('SPACE ANALYSIS')
-option = st.sidebar.selectbox('Select One',['GENERAL ANALYSIS','FIRST MISSION OF COUNTRY','ALL MISSION OF A COUNTRY','PERTICULAR MISSION'])
+option = st.sidebar.selectbox('Select One',['GENERAL ANALYSIS','FIRST MISSION OF COUNTRY','ALL MISSION OF A COUNTRY','PERTICULAR MISSION','ORGANISATION VS ORGANISATION'])
 
 if option == 'GENERAL ANALYSIS':
      load_general_analysis()
@@ -216,3 +329,10 @@ elif option == 'PERTICULAR MISSION':
      btn = st.sidebar.button('Select')
      if btn:
           perticular_mission(selected_mission)
+
+elif option == 'ORGANISATION VS ORGANISATION':
+     org1 = st.sidebar.selectbox('SELECT FIRST ORGANISATION',sorted(df['Organisation'].unique()))
+     org2 = st.sidebar.selectbox('SELECT SECOND ORGANISATION',sorted(df['Organisation'].unique()))
+     btn = st.sidebar.button('Select')
+     if btn:
+          org1vsorg2(org1,org2)
